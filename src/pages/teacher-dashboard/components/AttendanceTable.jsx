@@ -1,74 +1,96 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '../../../components/ui/Button';
 import Input from '../../../components/ui/Input';
 
 import Icon from '../../../components/AppIcon';
+
+import axios from 'axios';
 
 const AttendanceTable = ({ selectedClass, onBulkAction }) => {
   const [editingStudent, setEditingStudent] = useState(null);
   const [selectedStudents, setSelectedStudents] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
 
-  const studentsData = [
-    {
-      id: 'st001',
-      name: 'Alice Johnson',
-      rollNumber: 'CS101001',
-      attendancePercentage: 85.5,
-      recentStatus: 'Present',
-      lastUpdated: '2025-09-16',
-      totalClasses: 45,
-      attendedClasses: 38,
-      email: 'alice.johnson@university.edu'
-    },
-    {
-      id: 'st002',
-      name: 'Bob Smith',
-      rollNumber: 'CS101002',
-      attendancePercentage: 92.3,
-      recentStatus: 'Present',
-      lastUpdated: '2025-09-16',
-      totalClasses: 45,
-      attendedClasses: 42,
-      email: 'bob.smith@university.edu'
-    },
-    {
-      id: 'st003',
-      name: 'Carol Davis',
-      rollNumber: 'CS101003',
-      attendancePercentage: 58.2,
-      recentStatus: 'Absent',
-      lastUpdated: '2025-09-15',
-      totalClasses: 45,
-      attendedClasses: 26,
-      email: 'carol.davis@university.edu'
-    },
-    {
-      id: 'st004',
-      name: 'David Wilson',
-      rollNumber: 'CS101004',
-      attendancePercentage: 76.8,
-      recentStatus: 'Present',
-      lastUpdated: '2025-09-16',
-      totalClasses: 45,
-      attendedClasses: 35,
-      email: 'david.wilson@university.edu'
-    },
-    {
-      id: 'st005',
-      name: 'Emma Brown',
-      rollNumber: 'CS101005',
-      attendancePercentage: 45.7,
-      recentStatus: 'Absent',
-      lastUpdated: '2025-09-14',
-      totalClasses: 45,
-      attendedClasses: 21,
-      email: 'emma.brown@university.edu'
+  // const studentsData = [
+  //   {
+  //     id: 'st001',
+  //     name: 'Alice Johnson',
+  //     rollNumber: 'CS101001',
+  //     attendancePercentage: 85.5,
+  //     recentStatus: 'Present',
+  //     lastUpdated: '2025-09-16',
+  //     totalClasses: 45,
+  //     attendedClasses: 38,
+  //     email: 'alice.johnson@university.edu'
+  //   },
+  //   {
+  //     id: 'st002',
+  //     name: 'Bob Smith',
+  //     rollNumber: 'CS101002',
+  //     attendancePercentage: 92.3,
+  //     recentStatus: 'Present',
+  //     lastUpdated: '2025-09-16',
+  //     totalClasses: 45,
+  //     attendedClasses: 42,
+  //     email: 'bob.smith@university.edu'
+  //   },
+  //   {
+  //     id: 'st003',
+  //     name: 'Carol Davis',
+  //     rollNumber: 'CS101003',
+  //     attendancePercentage: 58.2,
+  //     recentStatus: 'Absent',
+  //     lastUpdated: '2025-09-15',
+  //     totalClasses: 45,
+  //     attendedClasses: 26,
+  //     email: 'carol.davis@university.edu'
+  //   },
+  //   {
+  //     id: 'st004',
+  //     name: 'David Wilson',
+  //     rollNumber: 'CS101004',
+  //     attendancePercentage: 76.8,
+  //     recentStatus: 'Present',
+  //     lastUpdated: '2025-09-16',
+  //     totalClasses: 45,
+  //     attendedClasses: 35,
+  //     email: 'david.wilson@university.edu'
+  //   },
+  //   {
+  //     id: 'st005',
+  //     name: 'Emma Brown',
+  //     rollNumber: 'CS101005',
+  //     attendancePercentage: 45.7,
+  //     recentStatus: 'Absent',
+  //     lastUpdated: '2025-09-14',
+  //     totalClasses: 45,
+  //     attendedClasses: 21,
+  //     email: 'emma.brown@university.edu'
+  //   }
+  // ];
+
+ // if not already imported
+
+const [studentsData, setStudentsData] = useState([]);
+
+useEffect(() => {
+  const fetchStudents = async () => {
+    try {
+      const res = await axios.get('http://localhost:8081/users');
+      setStudentsData(res.data);
+    } catch (err) {
+      console.error('Error fetching students:', err);
     }
-  ];
+  };
+
+  fetchStudents();
+}, []);
+
+
+
 
   const filteredStudents = studentsData?.filter(student =>
-    student?.name?.toLowerCase()?.includes(searchTerm?.toLowerCase()) ||
+    student?.Name?.toLowerCase()?.includes(searchTerm?.toLowerCase()) ||
     student?.rollNumber?.toLowerCase()?.includes(searchTerm?.toLowerCase())
   );
 
@@ -194,16 +216,16 @@ const AttendanceTable = ({ selectedClass, onBulkAction }) => {
                   <div className="flex items-center space-x-3">
                     <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
                       <span className="text-sm font-medium text-primary-foreground">
-                        {student?.name?.split(' ')?.map(n => n?.[0])?.join('')}
+                        {student?.Name?.split(' ')?.map(n => n?.[0])?.join('')}
                       </span>
                     </div>
                     <div>
-                      <p className="font-medium text-foreground">{student?.name}</p>
+                      <p className="font-medium text-foreground">{student?.Name}</p>
                       <p className="text-sm text-muted-foreground">{student?.email}</p>
                     </div>
                   </div>
                 </td>
-                <td className="p-4 text-foreground">{student?.rollNumber}</td>
+                <td className="p-4 text-foreground">{student?.Roll_no}</td>
                 <td className="p-4">
                   <div className="flex items-center space-x-2">
                     <span className={`font-semibold ${getAttendanceColor(student?.attendancePercentage)}`}>
@@ -257,12 +279,12 @@ const AttendanceTable = ({ selectedClass, onBulkAction }) => {
                 />
                 <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
                   <span className="text-sm font-medium text-primary-foreground">
-                    {student?.name?.split(' ')?.map(n => n?.[0])?.join('')}
+                    {student?.Name?.split(' ')?.map(n => n?.[0])?.join('')}
                   </span>
                 </div>
                 <div>
-                  <p className="font-medium text-foreground">{student?.name}</p>
-                  <p className="text-sm text-muted-foreground">{student?.rollNumber}</p>
+                  <p className="font-medium text-foreground">{student?.Name}</p>
+                  <p className="text-sm text-muted-foreground">{student?.Roll_no}</p>
                 </div>
               </div>
               {getStatusBadge(student?.recentStatus, student?.attendancePercentage)}
