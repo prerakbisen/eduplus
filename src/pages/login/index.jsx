@@ -44,7 +44,7 @@ const LoginPage = () => {
             <TrustSignals />
             
             {/* Footer */}
-            <div className="text-center mt-8 pt-6 border-t border-border">
+            {/* <div className="text-center mt-8 pt-6 border-t border-border">
               <p className="text-xs text-muted-foreground">
                 © {new Date()?.getFullYear()} EduPlus. All rights reserved.
               </p>
@@ -61,7 +61,7 @@ const LoginPage = () => {
                   Support
                 </a>
               </div>
-            </div>
+            </div> */}
           </div>
           
           {/* Additional Info */}

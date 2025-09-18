@@ -42,18 +42,18 @@ const Sidebar = ({ userRole = 'student', isCollapsed = false, onToggle }) => {
       path: '/teacher-dashboard',
       description: 'Teaching overview'
     },
-    {
-      label: 'Attendance',
-      icon: 'Calendar',
-      path: '/attendance-calendar',
-      description: 'Manage student attendance'
-    },
-    {
-      label: 'Students',
-      icon: 'Users',
-      path: '/student-profile',
-      description: 'Student management'
-    }
+    // {
+    //   label: 'Attendance',
+    //   icon: 'Calendar',
+    //   path: '/attendance-calendar',
+    //   description: 'Manage student attendance'
+    // },
+    // {
+    //   label: 'Students',
+    //   icon: 'Users',
+    //   path: '/student-profile',
+    //   description: 'Student management'
+    // }
   ];
 
   const navItems = userRole === 'teacher' ? teacherNavItems : studentNavItems;

@@ -45,7 +45,7 @@ const WelcomeHeader = () => {
         </div>
         <div className="flex items-center space-x-1">
           <Icon name="Target" size={14} />
-          <span>Skills Planning</span>
+          <span>Personalized Routine Generator</span>
         </div>
         <div className="flex items-center space-x-1">
           <Icon name="TrendingUp" size={14} />

@@ -77,8 +77,8 @@ const QuickActions = ({ selectedClass, onAction }) => {
           <h2 className="text-lg font-semibold text-foreground">Quick Actions</h2>
         </div>
         
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          <Button
+        <div className=" flex justify-center">
+          {/* <Button
             variant="default"
             onClick={handleMarkAttendance}
             iconName="CheckSquare"
@@ -87,20 +87,20 @@ const QuickActions = ({ selectedClass, onAction }) => {
             disabled={!selectedClass}
           >
             Mark Attendance
-          </Button>
+          </Button> */}
           
           <Button
             variant="outline"
             onClick={() => setShowExportOptions(!showExportOptions)}
             iconName="FileText"
-            iconPosition="left"
+            iconPosition="center"
             className="h-12"
             disabled={!selectedClass}
           >
             Generate Report
           </Button>
           
-          <Button
+          {/* <Button
             variant="secondary"
             onClick={handleSendBulkNotification}
             iconName="MessageSquare"
@@ -109,7 +109,7 @@ const QuickActions = ({ selectedClass, onAction }) => {
             disabled={!selectedClass}
           >
             Send Notification
-          </Button>
+          </Button> */}
         </div>
 
         {/* Export Options */}

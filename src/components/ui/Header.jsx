@@ -12,8 +12,8 @@ const Header = ({ userRole = 'student', userName = 'John Doe', isCollapsed = fal
 
   const teacherNavItems = [
     { label: 'Dashboard', path: '/teacher-dashboard', icon: 'LayoutDashboard' },
-    { label: 'Attendance', path: '/attendance-calendar', icon: 'Calendar' },
-    { label: 'Students', path: '/student-profile', icon: 'Users' },
+    // { label: 'Attendance', path: '/attendance-calendar', icon: 'Calendar' },
+    // { label: 'Students', path: '/student-profile', icon: 'Users' },
   ];
 
   const studentNavItems = [

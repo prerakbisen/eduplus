@@ -6,6 +6,7 @@ import ClassSelector from './components/ClassSelector';
 import AttendanceTable from './components/AttendanceTable';
 import AttendanceTrends from './components/AttendanceTrends';
 import NotificationCenter from './components/NotificationCenter';
+import TimetableSection from './components/TimetableSection';
 import QuickActions from './components/QuickActions';
 import Button from '../../components/ui/Button';
 import Icon from '../../components/AppIcon';
@@ -104,7 +105,7 @@ const TeacherDashboard = () => {
                 </p>
               </div>
               
-              <div className="flex items-center space-x-3">
+              {/* <div className="flex items-center space-x-3">
                 <div className="hidden sm:flex items-center space-x-4 text-sm text-muted-foreground">
                   <div className="flex items-center space-x-1">
                     <Icon name="Users" size={16} />
@@ -129,7 +130,7 @@ const TeacherDashboard = () => {
                 >
                   Take Attendance
                 </Button>
-              </div>
+              </div> */}
             </div>
           </div>
 
@@ -140,7 +141,7 @@ const TeacherDashboard = () => {
             selectedDateRange={selectedDateRange}
             onDateRangeChange={handleDateRangeChange}
           />
-
+  
           {/* Mobile View Selector */}
           <div className="lg:hidden mb-6">
             <div className="bg-card border border-border rounded-lg p-4">
@@ -174,6 +175,8 @@ const TeacherDashboard = () => {
                 />
                 
                 <AttendanceTrends selectedClass={selectedClass} />
+                {/* Timetable Section */}
+              <TimetableSection />
               </div>
 
               {/* Sidebar Content */}
@@ -233,6 +236,8 @@ const TeacherDashboard = () => {
               <NotificationCenter selectedClass={selectedClass} />
             )}
 
+            
+
             {activeView === 'actions' && (
               <QuickActions
                 selectedClass={selectedClass}
@@ -261,6 +266,7 @@ const TeacherDashboard = () => {
               </Button>
             </div>
           )}
+          
         </div>
       </main>
     </div>

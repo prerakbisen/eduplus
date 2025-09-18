@@ -69,22 +69,40 @@ const AttendanceTable = ({ selectedClass, onBulkAction }) => {
   //   }
   // ];
 
- // if not already imported
+  // if not already imported
 
-const [studentsData, setStudentsData] = useState([]);
+  
 
-useEffect(() => {
-  const fetchStudents = async () => {
+  const [studentsData, setStudentsData] = useState([]);
+
+  useEffect(() => {
+  const fetchData = async () => {
     try {
-      const res = await axios.get('http://localhost:8081/users');
-      setStudentsData(res.data);
+      const [studentsRes, presentRes] = await Promise.all([
+        axios.get('http://localhost:8081/all_student'),
+        axios.get('http://localhost:8081/present-rolls')
+      ]);
+
+      const presentRolls = new Set(presentRes.data); // fast lookup
+
+      const mergedData = studentsRes.data.map(student => ({
+        ...student,
+        recentStatus: presentRolls.has(student.Roll_no) ? 'Present' : 'Absent'
+      }));
+
+      setStudentsData(mergedData);
     } catch (err) {
-      console.error('Error fetching students:', err);
+      console.error('Error fetching data:', err);
     }
   };
 
-  fetchStudents();
+  fetchData();
 }, []);
+
+
+
+
+const totalClasses=101;
 
 
 
@@ -135,11 +153,10 @@ useEffect(() => {
         </span>
       );
     }
-    
+
     return (
-      <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
-        status === 'Present' ?'bg-success/10 text-success' :'bg-error/10 text-error'
-      }`}>
+      <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${status === 'Present' ? 'bg-success/10 text-success' : 'bg-error/10 text-error'
+        }`}>
         <Icon name={status === 'Present' ? 'Check' : 'X'} size={12} className="mr-1" />
         {status}
       </span>
@@ -157,7 +174,7 @@ useEffect(() => {
               Manage and track student attendance records
             </p>
           </div>
-          
+
           <div className="flex items-center space-x-3">
             <Input
               type="search"
@@ -166,7 +183,7 @@ useEffect(() => {
               onChange={(e) => setSearchTerm(e?.target?.value)}
               className="w-64"
             />
-            
+
             {selectedStudents?.length > 0 && (
               <Button
                 variant="outline"
@@ -232,7 +249,7 @@ useEffect(() => {
                       {student?.attendancePercentage}%
                     </span>
                     <span className="text-sm text-muted-foreground">
-                      ({student?.attendedClasses}/{student?.totalClasses})
+                      ({student?.attendedClasses}/{totalClasses})
                     </span>
                   </div>
                 </td>
@@ -289,7 +306,7 @@ useEffect(() => {
               </div>
               {getStatusBadge(student?.recentStatus, student?.attendancePercentage)}
             </div>
-            
+
             <div className="grid grid-cols-2 gap-4 mb-3">
               <div>
                 <p className="text-xs text-muted-foreground">Attendance</p>
@@ -300,11 +317,11 @@ useEffect(() => {
               <div>
                 <p className="text-xs text-muted-foreground">Classes</p>
                 <p className="font-medium text-foreground">
-                  {student?.attendedClasses}/{student?.totalClasses}
+                  {student?.attendedClasses}/{totalClasses}
                 </p>
               </div>
             </div>
-            
+
             <div className="flex items-center justify-between">
               <p className="text-xs text-muted-foreground">
                 Updated: {student?.lastUpdated}
