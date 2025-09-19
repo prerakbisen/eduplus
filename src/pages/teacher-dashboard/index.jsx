@@ -21,7 +21,7 @@ const TeacherDashboard = () => {
 
   // Mock teacher data
   const teacherData = {
-    name: 'Dr. Sarah Johnson',
+    name: 'Prof. Hitesh Gupta',
     employeeId: 'EMP001',
     department: 'Computer Science',
     totalClasses: 4,
@@ -79,7 +79,7 @@ const TeacherDashboard = () => {
     <div className="min-h-screen bg-background">
       <Header 
         userRole="teacher" 
-        userName={teacherData?.name}
+        userName="Prof. Hitesh Gupta"
         isCollapsed={sidebarCollapsed}
         onToggleSidebar={handleToggleSidebar}
       />

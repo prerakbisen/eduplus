@@ -11,6 +11,17 @@ import ExportOptions from './components/ExportOptions';
 import Icon from '../../components/AppIcon';
 import Button from '../../components/ui/Button';
 
+
+const handleChatBotClick = () => {
+  // Redirect to backend/chat server running on localhost:3000
+  try {
+    window.location.href = 'http://localhost:3000';
+  } catch (e) {
+    // fallback
+    window.open('http://localhost:3000', '_self');
+  }
+};
+
 const AttendanceCalendar = () => {
   const navigate = useNavigate();
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -292,8 +303,16 @@ const AttendanceCalendar = () => {
         dayDetails={selectedDate ? attendanceData?.[`${currentDate?.getFullYear()}-${String(currentDate?.getMonth() + 1)?.padStart(2, '0')}-${String(selectedDate)?.padStart(2, '0')}`] : null}
         currentDate={currentDate}
       />
-    </div>
-  );
-};
+          {/* Floating ChatBot Button */}
+          <button
+            onClick={handleChatBotClick}
+            className="fixed bottom-6 right-6 z-50 flex items-center justify-center w-14 h-14 rounded-full bg-gradient-to-r from-primary to-secondary text-white shadow-lg hover:scale-110 transition-transform duration-300"
+            aria-label="Open Chatbot"
+          >
+            <Icon name="MessageCircle" size={24} className="text-white" />
+          </button>
+        </div>
+      );
+    };
 
 export default AttendanceCalendar;

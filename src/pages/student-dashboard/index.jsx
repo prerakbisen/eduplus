@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Helmet } from 'react-helmet';
+import { MessageCircle } from 'lucide-react'; // icon for chatbot button
 import Header from '../../components/ui/Header';
 import Sidebar from '../../components/ui/Sidebar';
 import AttendanceInsights from './components/AttendanceInsights';
@@ -17,45 +18,59 @@ const StudentDashboard = () => {
     setSidebarCollapsed(!sidebarCollapsed);
   };
 
+  const handleChatBotClick = () => {
+    alert("Chatbot coming soon! 🤖");
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Helmet>
         <title>Student Dashboard - EduPlus</title>
-        <meta name="description" content="Personalized academic insights and skill development guidance through AI-powered interface" />
+        <meta
+          name="description"
+          content="Personalized academic insights and skill development guidance through AI-powered interface"
+        />
       </Helmet>
+
       {/* Header */}
-      <Header 
-        userRole="student" 
-        userName="Alex Johnson"
+      <Header
+        userRole="student"
+        userName="Prince Chouhan "
         isCollapsed={sidebarCollapsed}
         onToggleSidebar={toggleSidebar}
       />
+
       {/* Sidebar */}
-      <Sidebar 
+      <Sidebar
         userRole="student"
         isCollapsed={sidebarCollapsed}
         onToggle={toggleSidebar}
       />
+
       {/* Main Content */}
-      <main className={`transition-all duration-300 ease-out-custom pt-16 pb-20 lg:pb-6 ${
-        sidebarCollapsed ? 'lg:ml-16' : 'lg:ml-64'
-      }`}>
+      <main
+        className={`transition-all duration-300 ease-out-custom pt-16 pb-20 lg:pb-6 ${
+          sidebarCollapsed ? 'lg:ml-16' : 'lg:ml-64'
+        }`}
+      >
         <div className="px-4 lg:px-6 py-6">
           {/* Welcome Section */}
           <div className="mb-8">
             <div className="flex items-center justify-between mb-2">
-              <h1 className="text-3xl font-bold text-foreground">Welcome back, Alex! 👋</h1>
+              <h1 className="text-3xl font-bold text-foreground">
+                Welcome back, Prince Chouhan! 👋
+              </h1>
               <div className="hidden md:flex items-center space-x-4 text-sm text-muted-foreground">
                 <div className="flex items-center space-x-2">
                   <div className="w-2 h-2 bg-success rounded-full"></div>
                   <span>All systems operational</span>
                 </div>
                 <div className="text-muted-foreground">
-                  {new Date()?.toLocaleDateString('en-US', { 
-                    weekday: 'long', 
-                    year: 'numeric', 
-                    month: 'long', 
-                    day: 'numeric' 
+                  {new Date()?.toLocaleDateString('en-US', {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
                   })}
                 </div>
               </div>
@@ -99,7 +114,9 @@ const StudentDashboard = () => {
           <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {/* Performance Summary */}
             <div className="bg-card rounded-lg border border-border p-6">
-              <h3 className="text-lg font-semibold text-foreground mb-4">Performance Summary</h3>
+              <h3 className="text-lg font-semibold text-foreground mb-4">
+                Performance Summary
+              </h3>
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-muted-foreground">Overall GPA</span>
@@ -124,7 +141,9 @@ const StudentDashboard = () => {
 
             {/* Upcoming Deadlines */}
             <div className="bg-card rounded-lg border border-border p-6">
-              <h3 className="text-lg font-semibold text-foreground mb-4">Upcoming Deadlines</h3>
+              <h3 className="text-lg font-semibold text-foreground mb-4">
+                Upcoming Deadlines
+              </h3>
               <div className="space-y-3">
                 <div className="flex items-center justify-between p-3 bg-error/10 rounded-lg">
                   <div>
@@ -174,6 +193,14 @@ const StudentDashboard = () => {
           </div>
         </div>
       </main>
+
+      {/* Floating ChatBot Button */}
+      <button
+        onClick={handleChatBotClick}
+        className="fixed bottom-6 right-6 z-50 flex items-center justify-center w-14 h-14 rounded-full bg-gradient-to-r from-primary to-secondary text-white shadow-lg hover:scale-110 transition-transform duration-300"
+      >
+        <MessageCircle size={24} />
+      </button>
     </div>
   );
 };

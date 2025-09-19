@@ -10,6 +10,7 @@ import TimetableUpload from './components/TimetableUpload';
 import NotificationSettings from './components/NotificationSettings';
 import SecuritySettings from './components/SecuritySettings';
 
+
 const StudentProfile = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -286,6 +287,8 @@ const StudentProfile = () => {
           </div>
         </div>
       </main>
+      
+
     </div>
   );
 };

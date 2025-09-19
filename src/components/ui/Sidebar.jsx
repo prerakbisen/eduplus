@@ -169,7 +169,7 @@ const Sidebar = ({ userRole = 'student', isCollapsed = false, onToggle }) => {
                 <div key={index} className="relative group">
                   <Button
                     variant="ghost"
-                    onClick={action?.action}
+                    // onClick={action?.action}
                     className={`w-full justify-start transition-all duration-150 ${
                       isCollapsed ? 'px-3' : 'px-3'
                     }`}

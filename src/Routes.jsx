@@ -4,6 +4,7 @@ import ScrollToTop from "components/ScrollToTop";
 import ErrorBoundary from "components/ErrorBoundary";
 import NotFound from "pages/NotFound";
 import LoginPage from './pages/login';
+import AdminLoginPage from './pages/admin';
 import StudentProfile from './pages/student-profile';
 import AttendanceCalendar from './pages/attendance-calendar';
 import StudentDashboard from './pages/student-dashboard';
@@ -19,6 +20,7 @@ const Routes = () => {
         {/* Define your route here */}
         <Route path="/" element={<LoginPage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/admin-login" element={<AdminLoginPage />} />
         <Route path="/student-profile" element={<StudentProfile />} />
         <Route path="/attendance-calendar" element={<AttendanceCalendar />} />
         <Route path="/student-dashboard" element={<StudentDashboard />} />

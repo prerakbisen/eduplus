@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import Icon from '../AppIcon';
 import Button from './Button';
 
-const Header = ({ userRole = 'student', userName = 'John Doe', isCollapsed = false, onToggleSidebar }) => {
+const Header = ({ userRole = 'student', userName = 'Prince Chouhan', isCollapsed = false, onToggleSidebar }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [showNotifications, setShowNotifications] = useState(false);
@@ -174,7 +174,7 @@ const Header = ({ userRole = 'student', userName = 'John Doe', isCollapsed = fal
                     </span>
                   </div>
                   <div className="hidden md:block text-left">
-                    <p className="text-sm font-medium text-foreground">{userName}</p>
+                    <p className="text-sm font-medium text-foreground">Prof Hitesh Gupta</p>
                     <p className="text-xs text-muted-foreground capitalize">{userRole}</p>
                   </div>
                   <Icon name="ChevronDown" size={16} />
@@ -184,14 +184,14 @@ const Header = ({ userRole = 'student', userName = 'John Doe', isCollapsed = fal
                   <div className="absolute right-0 top-full mt-2 w-56 bg-popover border border-border rounded-lg shadow-elevation-2 z-50">
                     <div className="p-2">
                       <div className="px-3 py-2 border-b border-border mb-2">
-                        <p className="text-sm font-medium text-popover-foreground">{userName}</p>
+                        <p className="text-sm font-medium text-popover-foreground">Prof Hitesh Gupta</p>
                         <p className="text-xs text-muted-foreground capitalize">{userRole}</p>
                       </div>
                       
                       <Button
                         variant="ghost"
                         size="sm"
-                        onClick={() => handleNavigation('/student-profile')}
+                        // onClick={() => handleNavigation('/student-profile')}
                         className="w-full justify-start mb-1"
                       >
                         <Icon name="User" size={16} className="mr-2" />

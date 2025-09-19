@@ -234,14 +234,14 @@ const totalClasses=101;
 
   const getStatusBadge = (status, percentage) => {
     const isDetained = percentage < 60;
-    if (isDetained) {
-      return (
-        <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-error/10 text-error">
-          <Icon name="AlertTriangle" size={12} className="mr-1" />
-          Detained
-        </span>
-      );
-    }
+    // if (isDetained) {
+    //   return (
+    //     <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-error/10 text-error">
+    //       <Icon name="AlertTriangle" size={12} className="mr-1" />
+    //       Detained
+    //     </span>
+    //   );
+    // }
 
     return (
       <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${status === 'Present' ? 'bg-success/10 text-success' : 'bg-error/10 text-error'
@@ -344,8 +344,8 @@ const totalClasses=101;
                 <td className="p-4 text-foreground">{student?.Roll_no}</td>
                 <td className="p-4">
                   <div className="flex items-center space-x-2">
-                    <span className={`font-semibold ${getAttendanceColor(student?.attendancePercentage)}`}>
-                      {student?.attendancePercentage}%
+                    <span className={`font-semibold ${getAttendanceColor(student?.attendedClasses)}`}>
+                      {student?.attendedClasses}%
                     </span>
                     <span className="text-sm text-muted-foreground">
                       ({student?.attendedClasses}/{totalClasses})
@@ -363,7 +363,7 @@ const totalClasses=101;
                         <option value="Present">Present</option>
                         <option value="Absent">Absent</option>
                         <option value="Late">Late</option>
-                        <option value="Excused">Excused</option>
+                        <option value="Leave">Leave</option>
                       </select>
                       <div className="flex items-center space-x-2">
                         <Button size="sm" onClick={() => handleSaveEdit(student?.id)}>Save</Button>
@@ -371,7 +371,7 @@ const totalClasses=101;
                       </div>
                     </div>
                   ) : (
-                    getStatusBadge(student?.recentStatus, student?.attendancePercentage)
+                    getStatusBadge(student?.recentStatus, student?.attendedClasses)
                   )}
                 </td>
                 <td className="p-4 text-muted-foreground">{student?.lastUpdated}</td>
@@ -438,14 +438,14 @@ const totalClasses=101;
                   <p className="text-sm text-muted-foreground">{student?.Roll_no}</p>
                 </div>
               </div>
-              {getStatusBadge(student?.recentStatus, student?.attendancePercentage)}
+              {getStatusBadge(student?.recentStatus, student?.attendedClasses)}
             </div>
 
             <div className="grid grid-cols-2 gap-4 mb-3">
               <div>
                 <p className="text-xs text-muted-foreground">Attendance</p>
-                <p className={`font-semibold ${getAttendanceColor(student?.attendancePercentage)}`}>
-                  {student?.attendancePercentage}%
+                <p className={`font-semibold ${getAttendanceColor(student?.attendedClasses)}`}>
+                  {student?.attendedClasses}%
                 </p>
               </div>
               <div>

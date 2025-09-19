@@ -10,6 +10,16 @@ import ProgressTracking from './components/ProgressTracking';
 import MentorshipMatching from './components/MentorshipMatching';
 import GoalSetting from './components/GoalSetting';
 
+const handleChatBotClick = () => {
+  // Redirect to backend/chat server running on localhost:3000
+  try {
+    window.location.href = 'http://localhost:3000';
+  } catch (e) {
+    // fallback
+    window.open('http://localhost:3000', '_self');
+  }
+};
+
 const SkillsPlanner = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [activeTab, setActiveTab] = useState('overview');
@@ -572,6 +582,14 @@ const SkillsPlanner = () => {
           </div>
         </div>
       </main>
+      {/* Floating ChatBot Button */}
+          <button
+            onClick={handleChatBotClick}
+            className="fixed bottom-6 right-6 z-50 flex items-center justify-center w-14 h-14 rounded-full bg-gradient-to-r from-primary to-secondary text-white shadow-lg hover:scale-110 transition-transform duration-300"
+            aria-label="Open Chatbot"
+          >
+            <Icon name="MessageCircle" size={24} className="text-white" />
+          </button>
     </div>
   );
 };

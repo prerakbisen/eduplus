@@ -52,7 +52,7 @@ const ProfileHeader = ({ student, onEdit, onSave, isEditing }) => {
                   className="text-2xl font-bold text-foreground bg-transparent border-b border-border focus:border-primary outline-none"
                 />
               ) : (
-                <h1 className="text-2xl font-bold text-foreground">{student?.name}</h1>
+                <h1 className="text-2xl font-bold text-foreground">Prince Chouhan</h1>
               )}
               <p className="text-muted-foreground mt-1">Student ID: {student?.studentId}</p>
             </div>
