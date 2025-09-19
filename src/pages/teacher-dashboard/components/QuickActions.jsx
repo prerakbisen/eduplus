@@ -161,7 +161,7 @@ const QuickActions = ({ selectedClass, onAction }) => {
         )}
       </div>
       {/* System Status */}
-      <div className="bg-card border border-border rounded-lg p-6">
+      {/* <div className="bg-card border border-border rounded-lg p-6">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center space-x-2">
             <Icon name="Activity" size={20} className="text-primary" />
@@ -180,7 +180,7 @@ const QuickActions = ({ selectedClass, onAction }) => {
         </div>
         
         <div className="space-y-4">
-          {/* ERP Connection Status */}
+          ERP Connection Status
           <div className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
             <div className="flex items-center space-x-3">
               <div className={`w-3 h-3 rounded-full ${
@@ -198,7 +198,7 @@ const QuickActions = ({ selectedClass, onAction }) => {
             </span>
           </div>
 
-          {/* Pending Updates */}
+          Pending Updates
           <div className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
             <div className="flex items-center space-x-3">
               <Icon name="Clock" size={16} className="text-warning" />
@@ -214,7 +214,7 @@ const QuickActions = ({ selectedClass, onAction }) => {
             </span>
           </div>
 
-          {/* System Health */}
+          System Health
           <div className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
             <div className="flex items-center space-x-3">
               <Icon name="Shield" size={16} className={getHealthColor(systemStatus?.systemHealth)} />
@@ -230,9 +230,9 @@ const QuickActions = ({ selectedClass, onAction }) => {
             </span>
           </div>
         </div>
-      </div>
+      </div> */}
       {/* Bulk Operations */}
-      <div className="bg-card border border-border rounded-lg p-6">
+      {/* <div className="bg-card border border-border rounded-lg p-6">
         <div className="flex items-center space-x-2 mb-4">
           <Icon name="Settings" size={20} className="text-primary" />
           <h2 className="text-lg font-semibold text-foreground">Bulk Operations</h2>
@@ -275,7 +275,7 @@ const QuickActions = ({ selectedClass, onAction }) => {
             Import Attendance
           </Button>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

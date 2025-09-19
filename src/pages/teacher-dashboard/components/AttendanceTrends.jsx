@@ -25,9 +25,9 @@ const AttendanceTrends = ({ selectedClass }) => {
   ];
 
   const detainedStudents = [
-    { name: 'Sita', percentage: 58.2, rollNumber: '051' },
-    { name: 'Ram', percentage: 45.7, rollNumber: '321' },
-    { name: 'Shyam', percentage: 52.3, rollNumber: '351' }
+    { name: 'Anjali', percentage: 58.2, rollNumber: '057' },
+    { name: 'Anshul', percentage: 45.7, rollNumber: '066' },
+    { name: 'Deepti', percentage: 52.3, rollNumber: '145' }
   ];
 
   const classStats = {

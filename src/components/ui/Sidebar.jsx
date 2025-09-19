@@ -64,7 +64,7 @@ const Sidebar = ({ userRole = 'student', isCollapsed = false, onToggle }) => {
         { label: 'New Goal', icon: 'Plus', action: () => navigate('/skills-planner') }
       ]
     : [
-        { label: 'Take Attendance', icon: 'CheckSquare', action: () => navigate('/attendance-calendar') },
+        { label: 'Detained List', icon: 'CheckSquare', action: () => navigate('/attendance-calendar') },
         { label: 'View Reports', icon: 'BarChart3', action: () => navigate('/teacher-dashboard') }
       ];
 
