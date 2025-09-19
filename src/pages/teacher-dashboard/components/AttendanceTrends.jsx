@@ -4,12 +4,12 @@ import Icon from '../../../components/AppIcon';
 
 const AttendanceTrends = ({ selectedClass }) => {
   const weeklyTrends = [
-    { day: 'Mon', attendance: 85, total: 45 },
-    { day: 'Tue', attendance: 92, total: 45 },
-    { day: 'Wed', attendance: 78, total: 45 },
-    { day: 'Thu', attendance: 88, total: 45 },
-    { day: 'Fri', attendance: 82, total: 45 },
-    { day: 'Sat', attendance: 75, total: 45 }
+    { day: 'Mon', attendance: 85, total: 9 },
+    { day: 'Tue', attendance: 92, total: 9 },
+    { day: 'Wed', attendance: 78, total: 9 },
+    { day: 'Thu', attendance: 88, total: 9 },
+    { day: 'Fri', attendance: 82, total: 9 },
+    { day: 'Sat', attendance: 75, total: 9 }
   ];
 
   const monthlyTrends = [
@@ -25,16 +25,16 @@ const AttendanceTrends = ({ selectedClass }) => {
   ];
 
   const detainedStudents = [
-    { name: 'Carol Davis', percentage: 58.2, rollNumber: 'CS101003' },
-    { name: 'Emma Brown', percentage: 45.7, rollNumber: 'CS101005' },
-    { name: 'James Wilson', percentage: 52.3, rollNumber: 'CS101008' }
+    { name: 'Sita', percentage: 58.2, rollNumber: '051' },
+    { name: 'Ram', percentage: 45.7, rollNumber: '321' },
+    { name: 'Shyam', percentage: 52.3, rollNumber: '351' }
   ];
 
   const classStats = {
-    totalStudents: 45,
+    totalStudents: 9,
     averageAttendance: 78.5,
-    presentToday: 38,
-    absentToday: 7,
+    presentToday: 3,
+    absentToday: 6,
     detainedCount: 3
   };
 

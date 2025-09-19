@@ -8,6 +8,9 @@ import axios from 'axios';
 
 const AttendanceTable = ({ selectedClass, onBulkAction }) => {
   const [editingStudent, setEditingStudent] = useState(null);
+  const [editStatus, setEditStatus] = useState('Present');
+  const [messagingStudent, setMessagingStudent] = useState(null);
+  const [messageText, setMessageText] = useState('');
   const [selectedStudents, setSelectedStudents] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -87,6 +90,8 @@ const AttendanceTable = ({ selectedClass, onBulkAction }) => {
 
       const mergedData = studentsRes.data.map(student => ({
         ...student,
+        // ensure a stable id exists for UI operations
+        id: student?.id ?? student?.Roll_no,
         recentStatus: presentRolls.has(student.Roll_no) ? 'Present' : 'Absent'
       }));
 
@@ -129,12 +134,96 @@ const totalClasses=101;
   };
 
   const handleEditStudent = (studentId) => {
+    const student = studentsData?.find(s => s?.id === studentId);
+    setEditStatus(student?.recentStatus ?? 'Present');
     setEditingStudent(studentId);
   };
 
-  const handleSaveEdit = () => {
+  const handleCancelEdit = () => {
     setEditingStudent(null);
-    // Save logic would go here
+  };
+
+  const handleSaveEdit = async (studentId) => {
+    // update local state optimistically
+    setStudentsData(prev => prev.map(s => s?.id === studentId ? { ...s, recentStatus: editStatus } : s));
+
+    // call optional external handler
+    if (typeof onBulkAction === 'function') {
+      // reuse onBulkAction as an update mechanism if provided
+      try {
+        onBulkAction('update-status', { id: studentId, status: editStatus });
+      } catch (err) {
+        console.error('onBulkAction update-status handler threw', err);
+      }
+    }
+
+    // Example: send change to backend (best-effort, non-blocking)
+    try {
+      await axios.post('http://localhost:8081/update-attendance', { id: studentId, status: editStatus });
+    } catch (err) {
+      // log and keep optimistic change; in real app, rollback or show toast
+      console.error('Failed to persist attendance change', err);
+    }
+
+    setEditingStudent(null);
+  };
+
+  const handleStartMessage = (studentId) => {
+    setMessagingStudent(studentId);
+    setMessageText('');
+  };
+
+  const handleCancelMessage = () => {
+    setMessagingStudent(null);
+    setMessageText('');
+  };
+
+  const handleSendMessage = async (studentId) => {
+    const student = studentsData?.find(s => s?.id === studentId);
+    const payload = { id: studentId, message: messageText, to: student?.email };
+
+    if (typeof onBulkAction === 'function') {
+      try {
+        onBulkAction('send-message', payload);
+      } catch (err) {
+        console.error('onBulkAction send-message handler threw', err);
+      }
+    }
+
+    try {
+      await axios.post('http://localhost:8081/send-message', payload);
+    } catch (err) {
+      console.error('Failed to send message', err);
+    }
+
+    setMessagingStudent(null);
+    setMessageText('');
+  };
+
+  const handleBulkUpdate = async (status) => {
+    if (!selectedStudents || selectedStudents.length === 0) return;
+
+    // Optimistic local update
+    setStudentsData(prev => prev.map(s => selectedStudents.includes(s?.id) ? { ...s, recentStatus: status } : s));
+
+    // notify parent if available
+    if (typeof onBulkAction === 'function') {
+      try {
+        onBulkAction('bulk-update-status', { ids: selectedStudents, status });
+      } catch (err) {
+        console.error('onBulkAction bulk-update-status handler threw', err);
+      }
+    }
+
+    // send to backend (best-effort)
+    try {
+      await axios.post('http://localhost:8081/bulk-update-attendance', { ids: selectedStudents, status });
+    } catch (err) {
+      console.error('Failed to persist bulk attendance change', err);
+    }
+
+    // clear selection
+    setSelectedStudents([]);
   };
 
   const getAttendanceColor = (percentage) => {
@@ -185,14 +274,24 @@ const totalClasses=101;
             />
 
             {selectedStudents?.length > 0 && (
-              <Button
-                variant="outline"
-                onClick={() => onBulkAction('mark-present', selectedStudents)}
-                iconName="CheckSquare"
-                iconPosition="left"
-              >
-                Mark Present ({selectedStudents?.length})
-              </Button>
+              <div className="flex items-center space-x-2">
+                <Button
+                  variant="outline"
+                  onClick={() => handleBulkUpdate('Present')}
+                  iconName="CheckSquare"
+                  iconPosition="left"
+                >
+                  Mark Present ({selectedStudents?.length})
+                </Button>
+                <Button
+                  variant="outline"
+                  onClick={() => handleBulkUpdate('Absent')}
+                  iconName="X"
+                  iconPosition="left"
+                >
+                  Mark Absent ({selectedStudents?.length})
+                </Button>
+              </div>
             )}
           </div>
         </div>
@@ -254,7 +353,26 @@ const totalClasses=101;
                   </div>
                 </td>
                 <td className="p-4">
-                  {getStatusBadge(student?.recentStatus, student?.attendancePercentage)}
+                  {editingStudent === student?.id ? (
+                    <div className="flex items-center space-x-2">
+                      <select
+                        value={editStatus}
+                        onChange={(e) => setEditStatus(e?.target?.value)}
+                        className="border px-2 py-1 rounded"
+                      >
+                        <option value="Present">Present</option>
+                        <option value="Absent">Absent</option>
+                        <option value="Late">Late</option>
+                        <option value="Excused">Excused</option>
+                      </select>
+                      <div className="flex items-center space-x-2">
+                        <Button size="sm" onClick={() => handleSaveEdit(student?.id)}>Save</Button>
+                        <Button size="sm" variant="ghost" onClick={handleCancelEdit}>Cancel</Button>
+                      </div>
+                    </div>
+                  ) : (
+                    getStatusBadge(student?.recentStatus, student?.attendancePercentage)
+                  )}
                 </td>
                 <td className="p-4 text-muted-foreground">{student?.lastUpdated}</td>
                 <td className="p-4">
@@ -268,13 +386,29 @@ const totalClasses=101;
                     >
                       Edit
                     </Button>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      iconName="MessageSquare"
-                    >
-                      Message
-                    </Button>
+                    {messagingStudent === student?.id ? (
+                      <div className="flex items-center space-x-2">
+                        <textarea
+                          value={messageText}
+                          onChange={(e) => setMessageText(e?.target?.value)}
+                          placeholder={`Message to ${student?.Name}`}
+                          className="border px-2 py-1 rounded w-64 h-20"
+                        />
+                        <div className="flex items-center space-x-2">
+                          <Button size="sm" onClick={() => handleSendMessage(student?.id)}>Send</Button>
+                          <Button size="sm" variant="ghost" onClick={handleCancelMessage}>Cancel</Button>
+                        </div>
+                      </div>
+                    ) : (
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        iconName="MessageSquare"
+                        onClick={() => handleStartMessage(student?.id)}
+                      >
+                        Message
+                      </Button>
+                    )}
                   </div>
                 </td>
               </tr>
@@ -326,10 +460,25 @@ const totalClasses=101;
               <p className="text-xs text-muted-foreground">
                 Updated: {student?.lastUpdated}
               </p>
-              <div className="flex items-center space-x-2">
-                <Button variant="ghost" size="sm" iconName="Edit" />
-                <Button variant="ghost" size="sm" iconName="MessageSquare" />
-              </div>
+                <div className="flex items-center space-x-2">
+                <Button variant="ghost" size="sm" iconName="Edit" onClick={() => handleEditStudent(student?.id)} />
+                {messagingStudent === student?.id ? (
+                  <div className="flex items-center space-x-2 w-full">
+                    <textarea
+                      value={messageText}
+                      onChange={(e) => setMessageText(e?.target?.value)}
+                      placeholder={`Message to ${student?.Name}`}
+                      className="border px-2 py-1 rounded w-48 h-20"
+                    />
+                    <div className="flex items-center space-x-2">
+                      <Button size="sm" onClick={() => handleSendMessage(student?.id)}>Send</Button>
+                      <Button size="sm" variant="ghost" onClick={handleCancelMessage}>Cancel</Button>
+                    </div>
+                  </div>
+                ) : (
+                  <Button variant="ghost" size="sm" iconName="MessageSquare" onClick={() => handleStartMessage(student?.id)} />
+                )}
+                </div>
             </div>
           </div>
         ))}

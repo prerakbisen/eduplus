@@ -1,28 +1,48 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import Icon from '../../../components/AppIcon';
 
-const AttendanceCalendar = () => {
+const AttendanceCalendar = ({ attendance: attendanceProp = null }) => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
 
-  // Mock attendance data - green for present, red for absent
-  const attendanceData = {
-    '2024-12-01': 'present',
-    '2024-12-02': 'present',
-    '2024-12-03': 'absent',
-    '2024-12-04': 'present',
-    '2024-12-05': 'present',
-    '2024-12-06': 'present',
-    '2024-12-09': 'present',
-    '2024-12-10': 'absent',
-    '2024-12-11': 'present',
-    '2024-12-12': 'present',
-    '2024-12-13': 'present',
-    '2024-12-16': 'present',
-    '2024-12-17': 'present',
-    '2024-12-18': 'present',
-    '2024-12-19': 'absent',
-    '2024-12-20': 'present'
+  // Default mock attendance data (used when no prop is provided)
+  const mockAttendance = {
+    '2025-09-01': 'present',
+    '2025-09-02': 'present',
+    '2025-09-03': 'absent',
+    '2025-09-04': 'present',
+    '2025-09-05': 'present',
+    '2025-09-06': 'present',
+    '2025-09-09': 'present',
+    '2025-09-10': 'absent',
+    '2025-09-11': 'present',
+    '2025-09-12': 'absent',
+    '2025-09-13': 'present',
+    '2025-09-16': 'present',
+    '2025-09-17': 'present',
+    '2025-09-18': 'present',
+    '2025-09-19': 'present',
+    '2025-09-20': 'present'
   };
+
+  // Normalize incoming attendance prop into a map keyed by 'YYYY-MM-DD' => 'present' | 'absent'
+  const attendanceData = useMemo(() => {
+    if (!attendanceProp) return mockAttendance;
+    if (Array.isArray(attendanceProp)) {
+      const map = {};
+      attendanceProp.forEach(item => {
+        if (!item) return;
+        // support { date: 'YYYY-MM-DD', status: 'present' } or { date, attendance }
+        const date = item.date || item.rollDate || item.attendanceDate;
+        const status = item.status || item.attendance || item.value;
+        if (date && status) map[date] = status;
+      });
+      return { ...mockAttendance, ...map };
+    }
+    if (typeof attendanceProp === 'object') {
+      return { ...mockAttendance, ...attendanceProp };
+    }
+    return mockAttendance;
+  }, [attendanceProp]);
 
   const getDaysInMonth = (date) => {
     const year = date?.getFullYear();
