@@ -31,20 +31,15 @@ const AttendanceCalendar = () => {
   const [showDayDetails, setShowDayDetails] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   
-  // Get user data from localStorage
-  const [userRole, setUserRole] = useState(localStorage.getItem('userRole') || 'student');
-  const [userName, setUserName] = useState(localStorage.getItem('userName') || 'Alex Johnson');
+  // Get user data from localStorage (override to single student identity)
+  const [userRole, setUserRole] = useState('student');
+  const [userName, setUserName] = useState('Prince Chauhan');
 
   // Check authentication on component mount
   useEffect(() => {
-    const storedRole = localStorage.getItem('userRole');
-    if (!storedRole) {
-      // Redirect to login if no authentication found
-      navigate('/login');
-      return;
-    }
-    setUserRole(storedRole);
-    setUserName(localStorage.getItem('userName') || (storedRole === 'teacher' ? 'Dr. Sarah Wilson' : 'Alex Johnson'));
+    // Force student identity for this page
+    setUserRole('student');
+    setUserName('Prince Chauhan');
   }, [navigate]);
 
   // Mock attendance data

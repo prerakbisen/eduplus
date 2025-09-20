@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../../components/ui/Header';
+import { useLocation } from 'react-router-dom';
 import Sidebar from '../../components/ui/Sidebar';
 import ProfileHeader from './components/ProfileHeader';
 import PersonalInfoCard from './components/PersonalInfoCard';
@@ -18,17 +19,17 @@ const StudentProfile = () => {
 
   // Mock student data
   const [studentData, setStudentData] = useState({
-    name: "Sarah Johnson",
+    name: "Prince Chauhan",
     studentId: "STU2024001",
-    email: "sarah.johnson@university.edu",
-    phone: "+1 (555) 123-4567",
-    address: "123 Campus Drive, University City, UC 12345",
+    email: "princechauhan@university.edu",
+    phone: "+91 1234567890",
+    address: "21, main road, Bhopal, Madhya Pradesh, India",
     dateOfBirth: "2002-03-15",
-    emergencyContact: "Michael Johnson",
-    emergencyPhone: "+1 (555) 987-6543",
+    emergencyContact: "father's name",
+    emergencyPhone: "+91 9876543210",
     program: "Computer Science",
-    semester: "6th Semester",
-    gpa: "3.85",
+    semester: "5th Semester",
+    gpa: "8.33",
     attendanceRate: 87,
     avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=400&h=400&fit=crop&crop=face"
   });
@@ -37,11 +38,11 @@ const StudentProfile = () => {
     currentSemester: "Spring 2024",
     enrolledCourses: 6,
     currentCredits: 18,
-    currentGPA: "3.85",
+    currentGPA: "8.33",
     academicStanding: "Good Standing",
     completedCredits: 108,
     totalCredits: 120,
-    cumulativeGPA: "3.78",
+    cumulativeGPA: "8.33",
     expectedGraduation: "May 2025",
     achievements: [
       {
@@ -183,6 +184,15 @@ const StudentProfile = () => {
   useEffect(() => {
     document.title = 'Student Profile - EduPlus';
   }, []);
+
+  // Accept navigation state override (e.g., Header -> Profile) to set displayed name
+  const location = useLocation();
+  useEffect(() => {
+    const navName = location?.state?.userName;
+    if (navName) {
+      setStudentData(prev => ({ ...prev, name: navName }));
+    }
+  }, [location]);
 
   return (
     <div className="min-h-screen bg-background">

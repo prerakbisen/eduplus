@@ -416,7 +416,7 @@ const SkillsPlanner = () => {
     <div className="min-h-screen bg-background">
       <Header
         userRole="student"
-        userName="Alex Johnson"
+  userName="Prince Chauhan"
         isCollapsed={sidebarCollapsed}
         onToggleSidebar={() => setSidebarCollapsed(!sidebarCollapsed)}
       />

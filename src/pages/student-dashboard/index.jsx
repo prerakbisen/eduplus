@@ -19,8 +19,14 @@ const StudentDashboard = () => {
   };
 
   const handleChatBotClick = () => {
-    alert("Chatbot coming soon! 🤖");
-  };
+  // Redirect to backend/chat server running on localhost:3000
+  try {
+    window.location.href = 'http://localhost:3000';
+  } catch (e) {
+    // fallback
+    window.open('http://localhost:3000', '_self');
+  }
+};
 
   return (
     <div className="min-h-screen bg-background">
@@ -35,7 +41,7 @@ const StudentDashboard = () => {
       {/* Header */}
       <Header
         userRole="student"
-        userName="Prince Chouhan "
+        userName="Prince Chauhan"
         isCollapsed={sidebarCollapsed}
         onToggleSidebar={toggleSidebar}
       />
@@ -58,7 +64,7 @@ const StudentDashboard = () => {
           <div className="mb-8">
             <div className="flex items-center justify-between mb-2">
               <h1 className="text-3xl font-bold text-foreground">
-                Welcome back, Prince Chouhan! 👋
+                Welcome back, Prince Chauhan! 👋
               </h1>
               <div className="hidden md:flex items-center space-x-4 text-sm text-muted-foreground">
                 <div className="flex items-center space-x-2">

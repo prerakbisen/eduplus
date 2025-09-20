@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import Icon from '../AppIcon';
 import Button from './Button';
 
-const Header = ({ userRole = 'student', userName = 'Prince Chouhan', isCollapsed = false, onToggleSidebar }) => {
+const Header = ({ userRole = 'student', userName = 'Prince Chauhan', isCollapsed = false, onToggleSidebar }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [showNotifications, setShowNotifications] = useState(false);
@@ -26,7 +26,12 @@ const Header = ({ userRole = 'student', userName = 'Prince Chouhan', isCollapsed
   const navItems = userRole === 'teacher' ? teacherNavItems : studentNavItems;
 
   const handleNavigation = (path) => {
-    navigate(path);
+    // pass current userName when navigating to profile so target page can display it
+    if (path === '/student-profile') {
+      navigate(path, { state: { userName } });
+    } else {
+      navigate(path);
+    }
     setShowMobileMenu(false);
   };
 
@@ -174,7 +179,9 @@ const Header = ({ userRole = 'student', userName = 'Prince Chouhan', isCollapsed
                     </span>
                   </div>
                   <div className="hidden md:block text-left">
-                    <p className="text-sm font-medium text-foreground">Prof Hitesh Gupta</p>
+                    <p className="text-sm font-medium text-foreground">
+                      {userName || (userRole === 'teacher' ? 'Prof Hitesh Gupta' : 'Alex Johnson')}
+                    </p>
                     <p className="text-xs text-muted-foreground capitalize">{userRole}</p>
                   </div>
                   <Icon name="ChevronDown" size={16} />
@@ -184,7 +191,9 @@ const Header = ({ userRole = 'student', userName = 'Prince Chouhan', isCollapsed
                   <div className="absolute right-0 top-full mt-2 w-56 bg-popover border border-border rounded-lg shadow-elevation-2 z-50">
                     <div className="p-2">
                       <div className="px-3 py-2 border-b border-border mb-2">
-                        <p className="text-sm font-medium text-popover-foreground">Prof Hitesh Gupta</p>
+                        <p className="text-sm font-medium text-popover-foreground">
+                          {userName || (userRole === 'teacher' ? 'Prof Hitesh Gupta' : 'Alex Johnson')}
+                        </p>
                         <p className="text-xs text-muted-foreground capitalize">{userRole}</p>
                       </div>
                       
